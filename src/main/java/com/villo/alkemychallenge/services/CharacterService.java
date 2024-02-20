@@ -1,10 +1,13 @@
 package com.villo.alkemychallenge.services;
 
+import com.villo.alkemychallenge.dtos.requests.CharacterFilterRequestDTO;
 import com.villo.alkemychallenge.dtos.requests.CreateCharacterRequestDTO;
 import com.villo.alkemychallenge.dtos.requests.EditCharacterRequestDTO;
+import com.villo.alkemychallenge.dtos.responses.BasicCharacterResponseDTO;
 import com.villo.alkemychallenge.dtos.responses.FullCharacterResponseDTO;
 import com.villo.alkemychallenge.entities.Character;
 import com.villo.alkemychallenge.helpers.PropertyHelper;
+import com.villo.alkemychallenge.helpers.SpecificationHelper;
 import com.villo.alkemychallenge.repositories.CharacterRepository;
 import com.villo.alkemychallenge.utils.Constants;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,12 +18,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CharacterService {
     private static final String CHARACTER = "Personaje";
     private final ModelMapper modelMapper;
     private final CharacterRepository characterRepository;
+    private final SpecificationHelper<Character, CharacterFilterRequestDTO> specificationHelper;
 
     public ResponseEntity<FullCharacterResponseDTO> create(final CreateCharacterRequestDTO createCharacterRequestDTO) {
         var character = modelMapper.map(createCharacterRequestDTO, Character.class);
@@ -33,6 +39,16 @@ public class CharacterService {
         var character = findCharacterById(id);
 
         return ResponseEntity.ok(modelMapper.map(character, FullCharacterResponseDTO.class));
+    }
+
+    public ResponseEntity<List<BasicCharacterResponseDTO>> findByFilters(CharacterFilterRequestDTO characterFilterRequestDTO) {
+        var specification = specificationHelper.getAllSpecifications(characterFilterRequestDTO);
+
+        var characters = characterRepository.findAll(specification).stream()
+                .map(character -> modelMapper.map(character, BasicCharacterResponseDTO.class))
+                .toList();
+
+        return new ResponseEntity<>(characters, HttpStatus.OK);
     }
 
     public ResponseEntity<FullCharacterResponseDTO> edit(final Long id, final EditCharacterRequestDTO editCharacterRequestDTO) {

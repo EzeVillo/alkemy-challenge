@@ -1,7 +1,9 @@
 package com.villo.alkemychallenge.controllers;
 
+import com.villo.alkemychallenge.dtos.requests.CharacterFilterRequestDTO;
 import com.villo.alkemychallenge.dtos.requests.CreateCharacterRequestDTO;
 import com.villo.alkemychallenge.dtos.requests.EditCharacterRequestDTO;
+import com.villo.alkemychallenge.dtos.responses.BasicCharacterResponseDTO;
 import com.villo.alkemychallenge.dtos.responses.FullCharacterResponseDTO;
 import com.villo.alkemychallenge.services.CharacterService;
 import jakarta.validation.Valid;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/characters")
@@ -30,6 +34,11 @@ public class CharacterController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<FullCharacterResponseDTO> findById(@PathVariable final Long id) {
         return characterService.findById(id);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<BasicCharacterResponseDTO>> findByFilters(CharacterFilterRequestDTO characterFilterRequestDTO) {
+        return characterService.findByFilters(characterFilterRequestDTO);
     }
 
     @PatchMapping(value = "/{id}")
