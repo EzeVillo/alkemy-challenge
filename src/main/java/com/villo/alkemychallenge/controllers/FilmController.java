@@ -2,6 +2,8 @@ package com.villo.alkemychallenge.controllers;
 
 import com.villo.alkemychallenge.dtos.requests.CreateFilmRequestDTO;
 import com.villo.alkemychallenge.dtos.requests.EditFilmRequestDTO;
+import com.villo.alkemychallenge.dtos.requests.FilmFilterRequestDTO;
+import com.villo.alkemychallenge.dtos.responses.BasicFilmResponseDTO;
 import com.villo.alkemychallenge.dtos.responses.FullFilmResponseDTO;
 import com.villo.alkemychallenge.services.FilmService;
 import jakarta.validation.Valid;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/films")
@@ -30,6 +34,11 @@ public class FilmController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<FullFilmResponseDTO> findById(@PathVariable final Long id) {
         return filmService.findById(id);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<BasicFilmResponseDTO>> findByFilters(FilmFilterRequestDTO filmFilterRequestDTO) {
+        return filmService.findByFilters(filmFilterRequestDTO);
     }
 
     @PatchMapping(value = "/{id}")
