@@ -6,11 +6,10 @@ import com.villo.alkemychallenge.dtos.requests.EditCharacterRequestDTO;
 import com.villo.alkemychallenge.dtos.responses.BasicCharacterResponseDTO;
 import com.villo.alkemychallenge.dtos.responses.FullCharacterResponseDTO;
 import com.villo.alkemychallenge.entities.Character;
+import com.villo.alkemychallenge.helpers.CharacterHelper;
 import com.villo.alkemychallenge.helpers.PropertyHelper;
 import com.villo.alkemychallenge.helpers.SpecificationHelper;
 import com.villo.alkemychallenge.repositories.CharacterRepository;
-import com.villo.alkemychallenge.utils.Constants;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -23,9 +22,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CharacterService {
-    private static final String CHARACTER = "Personaje";
     private final ModelMapper modelMapper;
     private final CharacterRepository characterRepository;
+    private final CharacterHelper characterHelper;
     private final SpecificationHelper<Character, CharacterFilterRequestDTO> specificationHelper;
 
     public ResponseEntity<FullCharacterResponseDTO> create(final CreateCharacterRequestDTO createCharacterRequestDTO) {
@@ -36,7 +35,7 @@ public class CharacterService {
     }
 
     public ResponseEntity<FullCharacterResponseDTO> findById(final Long id) {
-        var character = findCharacterById(id);
+        var character = characterHelper.findCharacterByIdOrThrow(id);
 
         return ResponseEntity.ok(modelMapper.map(character, FullCharacterResponseDTO.class));
     }
@@ -52,7 +51,7 @@ public class CharacterService {
     }
 
     public ResponseEntity<FullCharacterResponseDTO> edit(final Long id, final EditCharacterRequestDTO editCharacterRequestDTO) {
-        var character = findCharacterById(id);
+        var character = characterHelper.findCharacterByIdOrThrow(id);
 
         BeanUtils.copyProperties(editCharacterRequestDTO, character, PropertyHelper.getNullPropertyNames(editCharacterRequestDTO));
 
@@ -61,15 +60,10 @@ public class CharacterService {
     }
 
     public ResponseEntity<Void> delete(final Long id) {
-        var character = findCharacterById(id);
+        var character = characterHelper.findCharacterByIdOrThrow(id);
         character.getFilms().forEach(film -> film.getCharacters().remove(character));
 
         characterRepository.delete(character);
         return ResponseEntity.noContent().build();
-    }
-
-    private Character findCharacterById(Long id) {
-        return characterRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(Constants.NOT_FOUND_MESSAGE, CHARACTER, id)));
     }
 }
