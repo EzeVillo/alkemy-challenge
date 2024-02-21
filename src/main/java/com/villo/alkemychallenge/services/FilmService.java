@@ -6,12 +6,11 @@ import com.villo.alkemychallenge.dtos.requests.FilmFilterRequestDTO;
 import com.villo.alkemychallenge.dtos.responses.BasicFilmResponseDTO;
 import com.villo.alkemychallenge.dtos.responses.FullFilmResponseDTO;
 import com.villo.alkemychallenge.entities.Film;
+import com.villo.alkemychallenge.helpers.FilmHelper;
 import com.villo.alkemychallenge.helpers.PropertyHelper;
 import com.villo.alkemychallenge.helpers.SpecificationHelper;
 import com.villo.alkemychallenge.repositories.CharacterRepository;
 import com.villo.alkemychallenge.repositories.FilmRepository;
-import com.villo.alkemychallenge.utils.Constants;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -24,9 +23,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class FilmService {
-    private static final String FILM = "Pelicula";
     private final ModelMapper modelMapper;
     private final FilmRepository filmRepository;
+    private final FilmHelper filmHelper;
     private final CharacterRepository characterRepository;
     private final SpecificationHelper<Film, FilmFilterRequestDTO> specificationHelper;
 
@@ -40,7 +39,7 @@ public class FilmService {
     }
 
     public ResponseEntity<FullFilmResponseDTO> findById(final Long id) {
-        var film = findFilmById(id);
+        var film = filmHelper.findFilmByIdOrThrow(id);
 
         return ResponseEntity.ok(modelMapper.map(film, FullFilmResponseDTO.class));
     }
@@ -56,7 +55,7 @@ public class FilmService {
     }
 
     public ResponseEntity<FullFilmResponseDTO> edit(final Long id, final EditFilmRequestDTO editFilmRequestDTO) {
-        var film = findFilmById(id);
+        var film = filmHelper.findFilmByIdOrThrow(id);
 
         BeanUtils.copyProperties(editFilmRequestDTO, film, PropertyHelper.getNullPropertyNames(editFilmRequestDTO));
 
@@ -65,14 +64,9 @@ public class FilmService {
     }
 
     public ResponseEntity<Void> delete(final Long id) {
-        var film = findFilmById(id);
+        var film = filmHelper.findFilmByIdOrThrow(id);
 
         filmRepository.delete(film);
         return ResponseEntity.noContent().build();
-    }
-
-    private Film findFilmById(Long id) {
-        return filmRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(Constants.NOT_FOUND_MESSAGE, FILM, id)));
     }
 }
