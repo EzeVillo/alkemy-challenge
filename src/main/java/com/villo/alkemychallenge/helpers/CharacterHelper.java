@@ -10,11 +10,13 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class CharacterHelper {
+    private static final String CHARACTER_ENTITY_NAME = "Personaje";
+
     private final CharacterRepository characterRepository;
-    
+
     public Character findCharacterByIdOrThrow(Long id) {
         return characterRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(Constants.NOT_FOUND_MESSAGE,
-                        Constants.CHARACTER_ENTITY_NAME, id)));
+                        CHARACTER_ENTITY_NAME, id)));
     }
 }

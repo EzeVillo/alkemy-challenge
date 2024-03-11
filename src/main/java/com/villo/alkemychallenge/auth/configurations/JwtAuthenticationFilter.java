@@ -1,7 +1,6 @@
 package com.villo.alkemychallenge.auth.configurations;
 
 import com.villo.alkemychallenge.auth.helpers.JwtTokenHelper;
-import com.villo.alkemychallenge.auth.utils.Constants;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -25,6 +24,8 @@ import java.util.Date;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    private static final String BEARER_PREFIX = "Bearer ";
+
     private final UserDetailsService userDetailsService;
     private final JwtTokenHelper jwtTokenHelper;
 
@@ -66,8 +67,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String getTokenFromRequest(HttpServletRequest request) {
         final var authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (StringUtils.hasText(authHeader) && authHeader.startsWith(Constants.BEARER_PREFIX))
-            return authHeader.substring(Constants.BEARER_PREFIX.length());
+        if (StringUtils.hasText(authHeader) && authHeader.startsWith(BEARER_PREFIX))
+            return authHeader.substring(BEARER_PREFIX.length());
 
         return null;
     }

@@ -10,11 +10,13 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class FilmHelper {
+    private static final String FILM_ENTITY_NAME = "Pelicula";
+
     private final FilmRepository filmRepository;
 
     public Film findFilmByIdOrThrow(Long id) {
         return filmRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(Constants.NOT_FOUND_MESSAGE,
-                        Constants.FILM_ENTITY_NAME, id)));
+                        FILM_ENTITY_NAME, id)));
     }
 }
