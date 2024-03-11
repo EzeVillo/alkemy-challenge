@@ -1,14 +1,17 @@
 package com.villo.alkemychallenge.configurations.errors;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.time.OffsetDateTime;
 
-@AllArgsConstructor
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+@Getter
 public class ErrorResponse {
-    private OffsetDateTime timestamp;
-    private int status;
-    private String error;
+    private final OffsetDateTime timestamp = OffsetDateTime.now();
+    private final int status;
+    private final String error;
+
+    public ErrorResponse(int status, String error) {
+        this.error = error;
+        this.status = status;
+    }
 }
