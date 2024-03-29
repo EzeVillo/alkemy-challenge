@@ -1,6 +1,6 @@
 package com.villo.alkemychallenge.integrations.decoders;
 
-import com.villo.alkemychallenge.configurations.errors.IntegrationException;
+import com.villo.alkemychallenge.utils.errors.IntegrationException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 
