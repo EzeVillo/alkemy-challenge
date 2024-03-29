@@ -1,5 +1,6 @@
 package com.villo.alkemychallenge.entities;
 
+import com.villo.alkemychallenge.utils.Constants;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -33,7 +34,7 @@ public class Character {
     @Column(name = "IMAGE")
     private String image;
 
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "NAME", nullable = false, unique = true, length = Constants.MAX_SIZE_NAME)
     private String name;
 
     @Column(name = "AGE")
@@ -42,7 +43,7 @@ public class Character {
     @Column(name = "WEIGHT")
     private Float weight;
 
-    @Column(name = "HISTORY")
+    @Column(name = "HISTORY", length = Constants.MAX_SIZE_HISTORY)
     private String history;
 
     @ManyToMany(mappedBy = "characters", fetch = FetchType.EAGER)

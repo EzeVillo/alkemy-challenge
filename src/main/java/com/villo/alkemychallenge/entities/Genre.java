@@ -2,11 +2,10 @@ package com.villo.alkemychallenge.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -31,16 +30,12 @@ public class Genre {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "NAME", nullable = false, unique = true)
     private String name;
 
     @Column(name = "IMAGE")
     private String image;
 
-    @ManyToMany
-    @JoinTable(
-            name = "GENRES_FILMS",
-            joinColumns = @JoinColumn(name = "GENRE_ID"),
-            inverseJoinColumns = @JoinColumn(name = "FILM_ID"))
+    @ManyToMany(mappedBy = "genres", fetch = FetchType.EAGER)
     private Set<Film> films = new HashSet<>();
 }

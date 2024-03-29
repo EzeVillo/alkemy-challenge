@@ -15,7 +15,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Range;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -37,14 +36,13 @@ public class Film {
     @Column(name = "IMAGE")
     private String image;
 
-    @Column(name = "TITLE", nullable = false)
+    @Column(name = "TITLE", nullable = false, unique = true)
     private String title;
 
     @Column(name = "CREATION_DATE", nullable = false)
     private LocalDate creationDate;
 
     @Column(name = "SCORE", nullable = false)
-    @Range(min = 1, max = 5)
     private Integer score;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -53,4 +51,11 @@ public class Film {
             joinColumns = @JoinColumn(name = "FILM_ID"),
             inverseJoinColumns = @JoinColumn(name = "CHARACTER_ID"))
     private Set<Character> characters = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "FILMS_GENRES",
+            joinColumns = @JoinColumn(name = "FILM_ID"),
+            inverseJoinColumns = @JoinColumn(name = "GENRE_ID"))
+    private Set<Genre> genres = new HashSet<>();
 }
