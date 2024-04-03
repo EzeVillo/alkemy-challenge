@@ -1,5 +1,6 @@
-package com.villo.alkemychallenge.utils.errors;
+package com.villo.alkemychallenge.utils.errors.custom;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 import java.time.OffsetDateTime;
@@ -7,11 +8,11 @@ import java.time.OffsetDateTime;
 @Getter
 public class ErrorResponse {
     private final OffsetDateTime timestamp = OffsetDateTime.now();
-    private final int status;
+
+    @Schema(example = "Error message")
     private final String error;
 
-    public ErrorResponse(int status, String error) {
+    public ErrorResponse(final String error) {
         this.error = error;
-        this.status = status;
     }
 }

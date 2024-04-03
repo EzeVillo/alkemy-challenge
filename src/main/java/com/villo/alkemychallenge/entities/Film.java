@@ -1,7 +1,10 @@
 package com.villo.alkemychallenge.entities;
 
+import com.villo.alkemychallenge.events.listeners.EntityWithImageListener;
+import com.villo.alkemychallenge.utils.Constants;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,25 +18,27 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.SneakyThrows;
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@EntityListeners(EntityWithImageListener.class)
 @Table(name = "FILMS")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Builder
-public class Film {
+public class Film implements Cloneable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "IMAGE")
+    @Column(name = "IMAGE", unique = true, length = Constants.MAX_SIZE_IMAGE)
     private String image;
 
     @Column(name = "TITLE", nullable = false, unique = true)
@@ -58,4 +63,10 @@ public class Film {
             joinColumns = @JoinColumn(name = "FILM_ID"),
             inverseJoinColumns = @JoinColumn(name = "GENRE_ID"))
     private Set<Genre> genres = new HashSet<>();
+
+    @Override
+    @SneakyThrows
+    public Object clone() {
+        return super.clone();
+    }
 }

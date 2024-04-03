@@ -5,6 +5,7 @@ import com.villo.alkemychallenge.dtos.CharacterDTO;
 import com.villo.alkemychallenge.dtos.requests.CharacterSpecificationRequestDTO;
 import com.villo.alkemychallenge.dtos.responses.PageResponseDTO;
 import com.villo.alkemychallenge.entities.Character;
+import com.villo.alkemychallenge.events.EntityEditedEvent;
 import com.villo.alkemychallenge.repositories.CharacterRepository;
 import com.villo.alkemychallenge.utils.SpecificationExecuter;
 import com.villo.alkemychallenge.utils.helpers.CharacterHelper;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 public class CharacterService {
     @Qualifier("modelMapperCharacters")
     private final ModelMapper modelMapper;
+    private final ApplicationEventPublisher eventPublisher;
     private final CharacterRepository characterRepository;
     private final CharacterHelper characterHelper;
     private final FromPageToPageDTO<CharacterDTO> fromPageToPageDTO;
@@ -41,11 +44,15 @@ public class CharacterService {
                 .map(character -> modelMapper.map(character, CharacterDTO.class)));
     }
 
-    public CharacterDTO edit(final Long id, final CharacterDTO characterRequestDTO) {
+    public CharacterDTO edit(final Long id, final CharacterDTO characterDTO) {
         var character = characterHelper.findCharacterByIdOrThrow(id);
-        BeanUtils.copyProperties(characterRequestDTO, character, PropertyHelper.getNullPropertyNames(characterRequestDTO));
+        var oldCharacter = character.clone();
 
-        return modelMapper.map(characterRepository.save(character), CharacterDTO.class);
+        BeanUtils.copyProperties(characterDTO, character, PropertyHelper.getNullPropertyNames(characterDTO));
+        character = characterRepository.save(character);
+
+        eventPublisher.publishEvent(new EntityEditedEvent(oldCharacter, character));
+        return modelMapper.map(character, CharacterDTO.class);
     }
 
     public void delete(final Long id) {

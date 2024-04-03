@@ -9,6 +9,7 @@ import com.villo.alkemychallenge.services.GenreService;
 import com.villo.alkemychallenge.utils.Constants;
 import com.villo.alkemychallenge.utils.Views;
 import com.villo.alkemychallenge.utils.annotations.exist.Exist;
+import com.villo.alkemychallenge.utils.errors.custom.ErrorResponse;
 import com.villo.alkemychallenge.utils.helpers.PaginationHelper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.links.Link;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,12 +49,13 @@ public class GenreController {
     @JsonView(Views.FullResponseView.class)
     @Operation(summary = Constants.CREATE_A + GENRE, responses = {
             @ApiResponse(responseCode = Constants.CREATED, description = Constants.RESOURCE_SUCCESSFULLY_CREATED,
-                    content = {@Content(mediaType = Constants.APPLICATION_JSON,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = GenreDTO.class))},
                     links = @Link(name = HttpHeaders.LOCATION, operationId = OBTAIN_A_GENRE,
                             parameters = @LinkParameter(name = Constants.ID, expression = Constants.ID))),
             @ApiResponse(responseCode = Constants.BAD_REQUEST, description = Constants.INVALID_RESOURCE_DATA,
-                    content = @Content)})
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
     public ResponseEntity<GenreDTO> create(
             @RequestBody @Valid
@@ -65,10 +68,11 @@ public class GenreController {
     @Operation(summary = OBTAIN_A_GENRE)
     @ApiResponses(value = {
             @ApiResponse(responseCode = Constants.OK, description = Constants.RESOURCE_FETCHED_SUCCESSFULLY,
-                    content = {@Content(mediaType = Constants.APPLICATION_JSON,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = GenreDTO.class))}),
             @ApiResponse(responseCode = Constants.NOT_FOUND, description = Constants.RESOURCE_NOT_FOUND,
-                    content = @Content)})
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping(value = "/{id}")
     public ResponseEntity<GenreDTO> findById(
             @Exist(repositoryClass = GenreRepository.class, property = "id", hasToExistToPassValidation = true,
@@ -80,12 +84,12 @@ public class GenreController {
     @JsonView(Views.BasicResponseView.class)
     @Operation(summary = Constants.OBTAIN_OR_FILTER + GENRES, responses = {
             @ApiResponse(responseCode = Constants.OK, description = Constants.RESOURCE_FETCHED_SUCCESSFULLY,
-                    content = {@Content(mediaType = Constants.APPLICATION_JSON,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = PageResponseDTO.class))}),
             @ApiResponse(responseCode = Constants.NO_CONTENT, description = Constants.RESOURCE_EMPTY,
                     content = @Content),
             @ApiResponse(responseCode = Constants.PARTIAL_CONTENT, description = Constants.RESOURCE_PARTIAL_CONTENT,
-                    content = @Content(mediaType = Constants.APPLICATION_JSON,
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = PageResponseDTO.class)),
                     links = {
                             @Link(name = Constants.FIRST_PREV_NEXT_LAST, operationId = Constants.OBTAIN_OR_FILTER + GENRES,

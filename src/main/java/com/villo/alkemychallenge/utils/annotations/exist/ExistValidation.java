@@ -1,5 +1,6 @@
 package com.villo.alkemychallenge.utils.annotations.exist;
 
+import com.villo.alkemychallenge.utils.errors.custom.NotFoundException;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;

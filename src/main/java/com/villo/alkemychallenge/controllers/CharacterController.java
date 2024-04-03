@@ -11,6 +11,7 @@ import com.villo.alkemychallenge.utils.Constants;
 import com.villo.alkemychallenge.utils.ValidationGroups;
 import com.villo.alkemychallenge.utils.Views;
 import com.villo.alkemychallenge.utils.annotations.exist.Exist;
+import com.villo.alkemychallenge.utils.errors.custom.ErrorResponse;
 import com.villo.alkemychallenge.utils.helpers.PaginationHelper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.links.Link;
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,12 +55,13 @@ public class CharacterController {
     @JsonView(Views.FullResponseView.class)
     @Operation(summary = Constants.CREATE_A + CHARACTER, responses = {
             @ApiResponse(responseCode = Constants.CREATED, description = Constants.RESOURCE_SUCCESSFULLY_CREATED,
-                    content = {@Content(mediaType = Constants.APPLICATION_JSON,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = CharacterDTO.class))},
                     links = @Link(name = HttpHeaders.LOCATION, operationId = OBTAIN_A_CHARACTER,
                             parameters = @LinkParameter(name = Constants.ID, expression = Constants.ID))),
             @ApiResponse(responseCode = Constants.BAD_REQUEST, description = Constants.INVALID_RESOURCE_DATA,
-                    content = @Content)})
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
     public ResponseEntity<CharacterDTO> create(
             @RequestBody @Validated(ValidationGroups.CreateValidationGroup.class)
@@ -71,10 +74,11 @@ public class CharacterController {
     @Operation(summary = OBTAIN_A_CHARACTER)
     @ApiResponses(value = {
             @ApiResponse(responseCode = Constants.OK, description = Constants.RESOURCE_FETCHED_SUCCESSFULLY,
-                    content = {@Content(mediaType = Constants.APPLICATION_JSON,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = CharacterDTO.class))}),
             @ApiResponse(responseCode = Constants.NOT_FOUND, description = Constants.RESOURCE_NOT_FOUND,
-                    content = @Content)})
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping(value = "/{id}")
     public ResponseEntity<CharacterDTO> findById(
             @Exist(repositoryClass = CharacterRepository.class, property = "id", hasToExistToPassValidation = true,
@@ -86,12 +90,12 @@ public class CharacterController {
     @JsonView(Views.BasicResponseView.class)
     @Operation(summary = Constants.OBTAIN_OR_FILTER + CHARACTERS, responses = {
             @ApiResponse(responseCode = Constants.OK, description = Constants.RESOURCE_FETCHED_SUCCESSFULLY,
-                    content = {@Content(mediaType = Constants.APPLICATION_JSON,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = PageResponseDTO.class))}),
             @ApiResponse(responseCode = Constants.NO_CONTENT, description = Constants.RESOURCE_EMPTY,
                     content = @Content),
             @ApiResponse(responseCode = Constants.PARTIAL_CONTENT, description = Constants.RESOURCE_PARTIAL_CONTENT,
-                    content = @Content(mediaType = Constants.APPLICATION_JSON,
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = PageResponseDTO.class)),
                     links = {
                             @Link(name = Constants.FIRST_PREV_NEXT_LAST, operationId = Constants.OBTAIN_OR_FILTER + CHARACTERS,
@@ -121,12 +125,14 @@ public class CharacterController {
     @Operation(summary = Constants.EDIT_A + CHARACTER)
     @ApiResponses(value = {
             @ApiResponse(responseCode = Constants.OK, description = Constants.RESOURCE_SUCCESSFULLY_EDITED,
-                    content = {@Content(mediaType = Constants.APPLICATION_JSON,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = CharacterDTO.class))}),
             @ApiResponse(responseCode = Constants.BAD_REQUEST, description = Constants.INVALID_RESOURCE_DATA,
-                    content = @Content),
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = Constants.NOT_FOUND, description = Constants.RESOURCE_NOT_FOUND,
-                    content = @Content)})
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @PatchMapping(value = "/{id}")
     public ResponseEntity<CharacterDTO> edit(
             @Exist(repositoryClass = CharacterRepository.class, property = "id", hasToExistToPassValidation = true,
@@ -140,7 +146,9 @@ public class CharacterController {
     @Operation(summary = Constants.DELETE_A + CHARACTER)
     @ApiResponses(value = {
             @ApiResponse(responseCode = Constants.NO_CONTENT, description = Constants.RESOURCE_SUCCESSFULLY_DELETED),
-            @ApiResponse(responseCode = Constants.NOT_FOUND, description = Constants.RESOURCE_NOT_FOUND)})
+            @ApiResponse(responseCode = Constants.NOT_FOUND, description = Constants.RESOURCE_NOT_FOUND,
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(
             @Exist(repositoryClass = CharacterRepository.class, property = "id", hasToExistToPassValidation = true,
