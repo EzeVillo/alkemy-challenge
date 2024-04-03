@@ -1,4 +1,4 @@
-package com.villo.alkemychallenge.utils.errors;
+package com.villo.alkemychallenge.utils.errors.custom;
 
 import lombok.Getter;
 

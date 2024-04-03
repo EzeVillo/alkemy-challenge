@@ -1,6 +1,7 @@
 package com.villo.alkemychallenge.dtos;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.villo.alkemychallenge.modules.image.utils.annotations.existfile.ExistFile;
 import com.villo.alkemychallenge.repositories.FilmRepository;
 import com.villo.alkemychallenge.repositories.GenreRepository;
 import com.villo.alkemychallenge.utils.Constants;
@@ -35,6 +36,9 @@ public class FilmDTO {
 
     @JsonView({Views.CreateRequestView.class, Views.EditRequestView.class, Views.BasicResponseView.class})
     @Schema(example = Constants.FILM_IMAGE_EXAMPLE)
+    @ExistFile(hasRoot = true)
+    @Exist(repositoryClass = FilmRepository.class, property = "image", hasToExistToPassValidation = false,
+            message = Constants.THE_IMAGE_IS_ALREADY_USED)
     private String image;
 
     @JsonView({Views.CreateRequestView.class, Views.EditRequestView.class, Views.BasicResponseView.class})

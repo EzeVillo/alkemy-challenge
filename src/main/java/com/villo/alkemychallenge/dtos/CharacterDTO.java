@@ -1,6 +1,7 @@
 package com.villo.alkemychallenge.dtos;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.villo.alkemychallenge.modules.image.utils.annotations.existfile.ExistFile;
 import com.villo.alkemychallenge.repositories.CharacterRepository;
 import com.villo.alkemychallenge.utils.Constants;
 import com.villo.alkemychallenge.utils.ValidationGroups;
@@ -30,6 +31,9 @@ public class CharacterDTO {
 
     @JsonView({Views.CreateRequestView.class, Views.EditRequestView.class, Views.BasicResponseView.class})
     @Schema(example = Constants.CHARACTER_IMAGE_EXAMPLE)
+    @ExistFile(hasRoot = true)
+    @Exist(repositoryClass = CharacterRepository.class, property = "image", hasToExistToPassValidation = false,
+            message = Constants.THE_IMAGE_IS_ALREADY_USED)
     private String image;
 
     @JsonView({Views.CreateRequestView.class, Views.EditRequestView.class, Views.BasicResponseView.class})

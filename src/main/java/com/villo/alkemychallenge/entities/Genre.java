@@ -1,7 +1,10 @@
 package com.villo.alkemychallenge.entities;
 
+import com.villo.alkemychallenge.events.listeners.EntityWithImageListener;
+import com.villo.alkemychallenge.utils.Constants;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@EntityListeners(EntityWithImageListener.class)
 @Table(name = "GENRES")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,7 +37,7 @@ public class Genre {
     @Column(name = "NAME", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "IMAGE")
+    @Column(name = "IMAGE", unique = true, length = Constants.MAX_SIZE_IMAGE)
     private String image;
 
     @ManyToMany(mappedBy = "genres", fetch = FetchType.EAGER)

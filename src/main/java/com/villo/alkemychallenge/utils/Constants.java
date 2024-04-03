@@ -10,14 +10,16 @@ public class Constants {
     public static final String CHARACTER_PATH = "/characters";
     public static final String AUTH_PATH = "/auth";
     public static final String LOGIN_PATH = "/login";
+    public static final String IMAGE_PATH = "/images";
+    public static final String ROOT = "${root}";
 
     //Operations
+    public final static String FILM = "film.";
     public static final String CREATE_A = "Create a ";
     public static final String OBTAIN_A = "Obtain a ";
     public static final String OBTAIN_OR_FILTER = "Obtain or filter ";
     public static final String EDIT_A = "Edit a ";
     public static final String DELETE_A = "Delete a ";
-    public final static String FILM = "film.";
     public final static String OBTAIN_A_FILM = OBTAIN_A + FILM;
 
 
@@ -40,9 +42,6 @@ public class Constants {
     public static final String NOT_FOUND = "404";
     public static final String NO_CONTENT = "204";
     public static final String PARTIAL_CONTENT = "206";
-
-    //Media types
-    public static final String APPLICATION_JSON = "application/json";
 
     //Links
     public static final String FIRST_PREV_NEXT_LAST = "first/prev/next/last";
@@ -84,6 +83,7 @@ public class Constants {
     public static final String INVALID_CREDENTIALS = "Invalid credentials.";
     public static final String MUST_BE_POSITIVE = " must be positive";
     public static final String MUST_BE_A_PAST_DATE = " must be a past date.";
+    public static final String THE_IMAGE_IS_ALREADY_USED = "The image is already used";
 
     //Sizes
     public static final int MIN_SIZE_USERNAME = 5;
@@ -96,6 +96,7 @@ public class Constants {
     public static final int MAX_SIZE_HISTORY = 500;
     public static final int MIN_SIZE_TITLE = 1;
     public static final int MAX_SIZE_TITLE = 50;
+    public static final int MAX_SIZE_IMAGE = 55;
     public static final int MIN_SIZE_HISTORY = 10;
     public static final int MIN_SCORE = 1;
     public static final int MAX_SCORE = 5;
@@ -107,15 +108,13 @@ public class Constants {
     public static final String NAME_EXAMPLE = "Anthony Stark";
     public static final String AGE_EXAMPLE = "53";
     public static final String TITLE_EXAMPLE = "Iron Man 1";
-    public static final String GENRE_NAME_EXAMPLE = "SuperHeroes";
-    public static final String GENRE_IMAGE_EXAMPLE = "https://www.rhpaenews.com/wp-content/uploads/2017/04/superheroe-portada.jpg";
-    public static final String CHARACTER_IMAGE_EXAMPLE = "https://static.wikia.nocookie.net/disney/images/9/96/Iron-Man-AOU-Render.png/revision" +
-            "/latest/scale-to-width-down/1200?cb=20180410032118&path-prefix=es";
+    public static final String GENRE_NAME_EXAMPLE = "Super Heroes";
+    public static final String GENRE_IMAGE_EXAMPLE = "/images/Super-Heroes.jpeg";
+    public static final String CHARACTER_IMAGE_EXAMPLE = "/images/Anthony-Stark.jpeg";
     public static final String WEIGHT_EXAMPLE = "102";
     public static final String HISTORY_EXAMPLE = "The movie tells the story of Tony Stark, a billionaire industrialist and genius " +
             "inventor, who is kidnapped and forced to build a devastating weapon.";
-    public static final String FILM_IMAGE_EXAMPLE = "https://static.wikia.nocookie.net/marvelcinematicuniverse/images/b/bf" +
-            "/Iron_Man_1_Portada.png/revision/latest?cb=20191029194450&path-prefix=es";
+    public static final String FILM_IMAGE_EXAMPLE = "/images/Iron-Man-1.jpeg";
     public static final String CREATION_DATE_EXAMPLE = "2008-04-30";
     public static final String SCORE_EXAMPLE = "5";
     public static final String ORDER_EXAMPLE = "ASC";
@@ -123,6 +122,8 @@ public class Constants {
     public static final String PAGE_EXAMPLE = "0";
     public static final String TOTAL_PAGES_EXAMPLE = "1";
     public static final String TOTAL_ELEMENTS_EXAMPLE = "1";
+    public static final String IMAGE_NAME_EXAMPLE = "Iron-Man-2";
+    public static final String IMAGE_NAME_WITH_EXTENSION_EXAMPLE = IMAGE_NAME_EXAMPLE + ".jpeg";
 
     //Booleans
     public static final String TRUE = "true";

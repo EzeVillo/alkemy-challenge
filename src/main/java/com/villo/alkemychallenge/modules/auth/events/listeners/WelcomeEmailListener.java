@@ -3,7 +3,7 @@ package com.villo.alkemychallenge.modules.auth.events.listeners;
 import com.villo.alkemychallenge.modules.auth.converters.UserToMailRequestConverter;
 import com.villo.alkemychallenge.modules.auth.events.UserCreatedEvent;
 import com.villo.alkemychallenge.modules.email.integrations.MailjetClient;
-import com.villo.alkemychallenge.utils.errors.IntegrationException;
+import com.villo.alkemychallenge.utils.errors.custom.IntegrationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;

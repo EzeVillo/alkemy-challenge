@@ -5,6 +5,7 @@ import com.villo.alkemychallenge.dtos.FilmDTO;
 import com.villo.alkemychallenge.dtos.requests.FilmSpecificationRequestDTO;
 import com.villo.alkemychallenge.dtos.responses.PageResponseDTO;
 import com.villo.alkemychallenge.entities.Film;
+import com.villo.alkemychallenge.events.EntityEditedEvent;
 import com.villo.alkemychallenge.repositories.FilmRepository;
 import com.villo.alkemychallenge.utils.SpecificationExecuter;
 import com.villo.alkemychallenge.utils.helpers.CharacterHelper;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 public class FilmService {
     @Qualifier("modelMapperFilms")
     private final ModelMapper modelMapper;
+    private final ApplicationEventPublisher eventPublisher;
     private final CharacterService characterService;
     private final CharacterHelper characterHelper;
     private final GenreHelper genreHelper;
@@ -68,9 +71,13 @@ public class FilmService {
 
     public FilmDTO edit(final Long id, final FilmDTO filmDTO) {
         var film = filmHelper.findFilmByIdOrThrow(id);
-        BeanUtils.copyProperties(filmDTO, film, PropertyHelper.getNullPropertyNames(filmDTO));
+        var oldFilm = film.clone();
 
-        return modelMapper.map(filmRepository.save(film), FilmDTO.class);
+        BeanUtils.copyProperties(filmDTO, film, PropertyHelper.getNullPropertyNames(filmDTO));
+        film = filmRepository.save(film);
+
+        eventPublisher.publishEvent(new EntityEditedEvent(oldFilm, film));
+        return modelMapper.map(film, FilmDTO.class);
     }
 
     public void delete(final Long id) {

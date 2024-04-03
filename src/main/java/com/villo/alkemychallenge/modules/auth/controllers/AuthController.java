@@ -5,6 +5,7 @@ import com.villo.alkemychallenge.modules.auth.dtos.requests.RegisterRequestDTO;
 import com.villo.alkemychallenge.modules.auth.dtos.responses.AuthResponseDTO;
 import com.villo.alkemychallenge.modules.auth.services.AuthService;
 import com.villo.alkemychallenge.utils.Constants;
+import com.villo.alkemychallenge.utils.errors.custom.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.links.Link;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,12 +40,14 @@ public class AuthController {
     @Operation(summary = LOGIN)
     @ApiResponses(value = {
             @ApiResponse(responseCode = Constants.OK, description = LOGGED_IN_SUCCESSFULLY,
-                    content = {@Content(mediaType = Constants.APPLICATION_JSON,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = AuthResponseDTO.class))}),
             @ApiResponse(responseCode = Constants.BAD_REQUEST, description = Constants.INVALID_RESOURCE_DATA,
-                    content = @Content),
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = Constants.NOT_FOUND, description = Constants.RESOURCE_NOT_FOUND,
-                    content = @Content)})
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping(value = Constants.LOGIN_PATH)
     public ResponseEntity<AuthResponseDTO> login(@RequestBody @Valid final LoginRequestDTO loginRequestDTO) {
         return ResponseEntity.ok(authService.login(loginRequestDTO));
@@ -51,11 +55,12 @@ public class AuthController {
 
     @Operation(summary = REGISTER, responses = {
             @ApiResponse(responseCode = Constants.CREATED, description = ACCOUNT_CREATED_SUCCESSFULLY,
-                    content = {@Content(mediaType = Constants.APPLICATION_JSON,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = AuthResponseDTO.class))},
                     links = @Link(name = HttpHeaders.LOCATION, operationId = LOGIN)),
             @ApiResponse(responseCode = Constants.BAD_REQUEST, description = Constants.INVALID_RESOURCE_DATA,
-                    content = @Content)})
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping(value = "register")
     public ResponseEntity<AuthResponseDTO> register(@RequestBody @Valid final RegisterRequestDTO registerRequestDTO) {
         var auth = authService.register(registerRequestDTO);

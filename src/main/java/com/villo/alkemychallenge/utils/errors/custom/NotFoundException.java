@@ -1,4 +1,4 @@
-package com.villo.alkemychallenge.utils.annotations.exist;
+package com.villo.alkemychallenge.utils.errors.custom;
 
 import jakarta.validation.ConstraintDeclarationException;
 
