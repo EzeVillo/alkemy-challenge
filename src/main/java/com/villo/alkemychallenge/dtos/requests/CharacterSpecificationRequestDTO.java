@@ -25,7 +25,7 @@ public class CharacterSpecificationRequestDTO {
     private Integer age;
 
     @Schema(example = Constants.ID_EXAMPLE)
-    @PositiveOrZero(message = Constants.THE_FILM_ID + Constants.MUST_BE_ZERO_OR_GREATER)
-    @SpecificationField(join = {"films"}, value = "id")
-    private Integer film;
+    @PositiveOrZero(message = Constants.THE_MOVIE_ID + Constants.MUST_BE_ZERO_OR_GREATER)
+    @SpecificationField(join = {"movies"}, value = "id")
+    private Integer movies;
 }

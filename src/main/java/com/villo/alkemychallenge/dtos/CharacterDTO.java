@@ -62,5 +62,5 @@ public class CharacterDTO {
     private String history;
 
     @JsonView({Views.FullResponseView.class})
-    private Set<FilmDTO> films;
+    private Set<MovieDTO> movies;
 }

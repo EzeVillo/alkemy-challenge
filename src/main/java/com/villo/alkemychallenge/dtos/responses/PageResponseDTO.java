@@ -3,7 +3,7 @@ package com.villo.alkemychallenge.dtos.responses;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.villo.alkemychallenge.dtos.CharacterDTO;
-import com.villo.alkemychallenge.dtos.FilmDTO;
+import com.villo.alkemychallenge.dtos.MovieDTO;
 import com.villo.alkemychallenge.dtos.GenreDTO;
 import com.villo.alkemychallenge.utils.Constants;
 import com.villo.alkemychallenge.utils.Views;
@@ -23,7 +23,7 @@ import java.util.List;
 @Builder
 @JsonView(Views.BasicResponseView.class)
 public class PageResponseDTO<T> {
-    @Schema(oneOf = {CharacterDTO.class, FilmDTO.class, GenreDTO.class})
+    @Schema(oneOf = {CharacterDTO.class, MovieDTO.class, GenreDTO.class})
     private List<T> content;
 
     @Schema(example = Constants.SIZE_EXAMPLE)

@@ -57,7 +57,7 @@ public class CharacterService {
 
     public void delete(final Long id) {
         var character = characterHelper.findCharacterByIdOrThrow(id);
-        character.getFilms().forEach(film -> film.getCharacters().remove(character));
+        character.getMovies().forEach(movie -> movie.getCharacters().remove(character));
 
         characterRepository.delete(character);
     }

@@ -26,13 +26,13 @@ import java.util.Set;
 
 @Entity
 @EntityListeners(EntityWithImageListener.class)
-@Table(name = "FILMS")
+@Table(name = "MOVIES")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Builder
-public class Film implements Cloneable {
+public class Movie implements Cloneable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
@@ -53,14 +53,14 @@ public class Film implements Cloneable {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "PARTICIPATIONS",
-            joinColumns = @JoinColumn(name = "FILM_ID"),
+            joinColumns = @JoinColumn(name = "MOVIE_ID"),
             inverseJoinColumns = @JoinColumn(name = "CHARACTER_ID"))
     private Set<Character> characters = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
-            name = "FILMS_GENRES",
-            joinColumns = @JoinColumn(name = "FILM_ID"),
+            name = "MOVIES_GENRES",
+            joinColumns = @JoinColumn(name = "MOVIE_ID"),
             inverseJoinColumns = @JoinColumn(name = "GENRE_ID"))
     private Set<Genre> genres = new HashSet<>();
 

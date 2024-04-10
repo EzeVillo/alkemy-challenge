@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class FilmSpecificationRequestDTO {
+public class MovieSpecificationRequestDTO {
     @Schema(example = Constants.TITLE_EXAMPLE)
     @Size(min = Constants.MIN_SIZE_TITLE, max = Constants.MAX_SIZE_TITLE,
             message = Constants.THE_TITLE + Constants.HAVE_VALID_LENGTH_MESSAGE)
