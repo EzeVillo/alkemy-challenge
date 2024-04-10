@@ -1,7 +1,7 @@
 package com.villo.alkemychallenge.controllers;
 
 import com.villo.alkemychallenge.repositories.CharacterRepository;
-import com.villo.alkemychallenge.repositories.FilmRepository;
+import com.villo.alkemychallenge.repositories.MovieRepository;
 import com.villo.alkemychallenge.services.ParticipationService;
 import com.villo.alkemychallenge.utils.Constants;
 import com.villo.alkemychallenge.utils.annotations.exist.Exist;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 
 @RestController
-@RequestMapping(Constants.FILM_PATH + "/{idFilm}" + Constants.CHARACTER_PATH + "/{idCharacter}")
+@RequestMapping(Constants.MOVIE_PATH + "/{idMovie}" + Constants.CHARACTER_PATH + "/{idCharacter}")
 @RequiredArgsConstructor
 public class ParticipationController {
     private final static String ADD_A_CHARACTER_TO_A_MOVIE = "Add a character to a movie.";
@@ -36,7 +36,7 @@ public class ParticipationController {
 
     @Operation(summary = ADD_A_CHARACTER_TO_A_MOVIE, responses = {
             @ApiResponse(responseCode = Constants.CREATED, description = Constants.RESOURCE_SUCCESSFULLY_RELATION_CREATED,
-                    links = @Link(name = HttpHeaders.LOCATION, operationId = Constants.OBTAIN_A_FILM,
+                    links = @Link(name = HttpHeaders.LOCATION, operationId = Constants.OBTAIN_A_MOVIE,
                             parameters = @LinkParameter(name = Constants.ID, expression = Constants.ID))),
             @ApiResponse(responseCode = Constants.BAD_REQUEST, description = Constants.INVALID_RESOURCE_DATA,
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -46,14 +46,14 @@ public class ParticipationController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
     public ResponseEntity<Void> add(
-            @Exist(repositoryClass = FilmRepository.class, property = "id", hasToExistToPassValidation = true,
-                    message = Constants.FILM_NOT_FOUND_MESSAGE)
-            @PathVariable final Long idFilm,
+            @Exist(repositoryClass = MovieRepository.class, property = "id", hasToExistToPassValidation = true,
+                    message = Constants.MOVIE_NOT_FOUND_MESSAGE)
+            @PathVariable final Long idMovie,
             @Exist(repositoryClass = CharacterRepository.class, property = "id", hasToExistToPassValidation = true,
                     message = Constants.CHARACTER_NOT_FOUND_MESSAGE)
             @PathVariable final Long idCharacter) {
-        participationService.add(idFilm, idCharacter);
-        return ResponseEntity.created(URI.create(Constants.FILM_PATH + "/" + idFilm)).build();
+        participationService.add(idMovie, idCharacter);
+        return ResponseEntity.created(URI.create(Constants.MOVIE_PATH + "/" + idMovie)).build();
     }
 
     @Operation(summary = REMOVE_A_CHARACTER_FROM_A_MOVIE)
@@ -68,13 +68,13 @@ public class ParticipationController {
 
     @DeleteMapping
     public ResponseEntity<Void> remove(
-            @Exist(repositoryClass = FilmRepository.class, property = "id", hasToExistToPassValidation = true,
-                    message = Constants.FILM_NOT_FOUND_MESSAGE)
-            @PathVariable final Long idFilm,
+            @Exist(repositoryClass = MovieRepository.class, property = "id", hasToExistToPassValidation = true,
+                    message = Constants.MOVIE_NOT_FOUND_MESSAGE)
+            @PathVariable final Long idMovie,
             @Exist(repositoryClass = CharacterRepository.class, property = "id", hasToExistToPassValidation = true,
                     message = Constants.CHARACTER_NOT_FOUND_MESSAGE)
             @PathVariable final Long idCharacter) {
-        participationService.remove(idFilm, idCharacter);
+        participationService.remove(idMovie, idCharacter);
         return ResponseEntity.noContent().build();
     }
 }

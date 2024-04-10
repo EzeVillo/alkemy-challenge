@@ -6,7 +6,7 @@ public class Constants {
     }
 
     //Paths
-    public static final String FILM_PATH = "/films";
+    public static final String MOVIE_PATH = "/movies";
     public static final String CHARACTER_PATH = "/characters";
     public static final String AUTH_PATH = "/auth";
     public static final String LOGIN_PATH = "/login";
@@ -14,13 +14,13 @@ public class Constants {
     public static final String ROOT = "${root}";
 
     //Operations
-    public final static String FILM = "film.";
+    public final static String MOVIE = "movie.";
     public static final String CREATE_A = "Create a ";
     public static final String OBTAIN_A = "Obtain a ";
     public static final String OBTAIN_OR_FILTER = "Obtain or filter ";
     public static final String EDIT_A = "Edit a ";
     public static final String DELETE_A = "Delete a ";
-    public final static String OBTAIN_A_FILM = OBTAIN_A + FILM;
+    public final static String OBTAIN_A_MOVIE = OBTAIN_A + MOVIE;
 
 
     //Resources
@@ -65,14 +65,14 @@ public class Constants {
     public static final String THE_SCORE = "The score";
     public static final String THE_SIZE = "The size";
     public static final String THE_NUMBER = "The number";
-    public static final String THE_FILM_ID = "The film's id";
+    public static final String THE_MOVIE_ID = "The movie's id";
     public static final String THE_GENRE_ID = "The genre's id";
     public static final String THE_ORDER_MUST_BE = "The order must be ASC/DESC";
 
     //Validations
     public static final String NOT_FOUND_MESSAGE = " not found.";
     public static final String CHARACTER_NOT_FOUND_MESSAGE = CHARACTER + NOT_FOUND_MESSAGE;
-    public static final String FILM_NOT_FOUND_MESSAGE = "Film" + NOT_FOUND_MESSAGE;
+    public static final String MOVIE_NOT_FOUND_MESSAGE = "Movie" + NOT_FOUND_MESSAGE;
     public static final String GENRE_NOT_FOUND_MESSAGE = GENRE + NOT_FOUND_MESSAGE;
     public static final String NOT_BE_NULL_MESSAGE = " cannot be null.";
     public static final String HAVE_VALID_LENGTH_MESSAGE = " must have a valid length.";
@@ -114,7 +114,7 @@ public class Constants {
     public static final String WEIGHT_EXAMPLE = "102";
     public static final String HISTORY_EXAMPLE = "The movie tells the story of Tony Stark, a billionaire industrialist and genius " +
             "inventor, who is kidnapped and forced to build a devastating weapon.";
-    public static final String FILM_IMAGE_EXAMPLE = "/images/Iron-Man-1.jpeg";
+    public static final String MOVIE_IMAGE_EXAMPLE = "/images/Iron-Man-1.jpeg";
     public static final String CREATION_DATE_EXAMPLE = "2008-04-30";
     public static final String SCORE_EXAMPLE = "5";
     public static final String ORDER_EXAMPLE = "ASC";

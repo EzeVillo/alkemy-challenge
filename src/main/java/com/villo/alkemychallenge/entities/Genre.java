@@ -41,5 +41,5 @@ public class Genre {
     private String image;
 
     @ManyToMany(mappedBy = "genres", fetch = FetchType.EAGER)
-    private Set<Film> films = new HashSet<>();
+    private Set<Movie> movies = new HashSet<>();
 }

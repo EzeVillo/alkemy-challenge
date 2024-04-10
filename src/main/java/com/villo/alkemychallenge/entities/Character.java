@@ -51,7 +51,7 @@ public class Character implements Cloneable {
     private String history;
 
     @ManyToMany(mappedBy = "characters", fetch = FetchType.EAGER)
-    private Set<Film> films = new HashSet<>();
+    private Set<Movie> movies = new HashSet<>();
 
     @Override
     @SneakyThrows

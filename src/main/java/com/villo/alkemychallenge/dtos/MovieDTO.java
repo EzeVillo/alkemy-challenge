@@ -2,7 +2,7 @@ package com.villo.alkemychallenge.dtos;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.villo.alkemychallenge.modules.image.utils.annotations.existfile.ExistFile;
-import com.villo.alkemychallenge.repositories.FilmRepository;
+import com.villo.alkemychallenge.repositories.MovieRepository;
 import com.villo.alkemychallenge.repositories.GenreRepository;
 import com.villo.alkemychallenge.utils.Constants;
 import com.villo.alkemychallenge.utils.ValidationGroups;
@@ -29,15 +29,15 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-public class FilmDTO {
+public class MovieDTO {
     @JsonView({Views.BasicResponseView.class})
     @Schema(example = Constants.ID_EXAMPLE)
     private Long id;
 
     @JsonView({Views.CreateRequestView.class, Views.EditRequestView.class, Views.BasicResponseView.class})
-    @Schema(example = Constants.FILM_IMAGE_EXAMPLE)
+    @Schema(example = Constants.MOVIE_IMAGE_EXAMPLE)
     @ExistFile(hasRoot = true)
-    @Exist(repositoryClass = FilmRepository.class, property = "image", hasToExistToPassValidation = false,
+    @Exist(repositoryClass = MovieRepository.class, property = "image", hasToExistToPassValidation = false,
             message = Constants.THE_IMAGE_IS_ALREADY_USED)
     private String image;
 
@@ -45,7 +45,7 @@ public class FilmDTO {
     @Schema(example = Constants.TITLE_EXAMPLE)
     @NotNull(message = Constants.THE_TITLE + Constants.NOT_BE_NULL_MESSAGE, groups = {ValidationGroups.CreateValidationGroup.class})
     @Size(min = Constants.MIN_SIZE_TITLE, max = Constants.MAX_SIZE_TITLE, message = Constants.THE_TITLE + Constants.HAVE_VALID_LENGTH_MESSAGE)
-    @Exist(repositoryClass = FilmRepository.class, property = "title", hasToExistToPassValidation = false,
+    @Exist(repositoryClass = MovieRepository.class, property = "title", hasToExistToPassValidation = false,
             message = Constants.THE_TITLE + Constants.ALREADY_EXIST)
     private String title;
 

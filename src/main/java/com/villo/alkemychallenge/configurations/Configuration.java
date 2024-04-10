@@ -1,10 +1,10 @@
 package com.villo.alkemychallenge.configurations;
 
 import com.villo.alkemychallenge.dtos.CharacterDTO;
-import com.villo.alkemychallenge.dtos.FilmDTO;
+import com.villo.alkemychallenge.dtos.MovieDTO;
 import com.villo.alkemychallenge.dtos.GenreDTO;
 import com.villo.alkemychallenge.entities.Character;
-import com.villo.alkemychallenge.entities.Film;
+import com.villo.alkemychallenge.entities.Movie;
 import com.villo.alkemychallenge.entities.Genre;
 import com.villo.alkemychallenge.integrations.decoders.CustomErrorBaseFormatDecoder;
 import feign.codec.ErrorDecoder;
@@ -29,24 +29,24 @@ public class Configuration {
     @Bean
     public ModelMapper modelMapperCharacters() {
         var modelMapper = new ModelMapper();
-        modelMapper.typeMap(Film.class, FilmDTO.class).addMappings(newMapping -> newMapping.skip(FilmDTO::setCharacters));
-        modelMapper.typeMap(Genre.class, GenreDTO.class).addMappings(newMapping -> newMapping.skip(GenreDTO::setFilms));
+        modelMapper.typeMap(Movie.class, MovieDTO.class).addMappings(newMapping -> newMapping.skip(MovieDTO::setCharacters));
+        modelMapper.typeMap(Genre.class, GenreDTO.class).addMappings(newMapping -> newMapping.skip(GenreDTO::setMovies));
         return modelMapper;
     }
 
     @Bean
-    public ModelMapper modelMapperFilms() {
+    public ModelMapper modelMapperMovies() {
         var modelMapper = new ModelMapper();
-        modelMapper.typeMap(Character.class, CharacterDTO.class).addMappings(newMapping -> newMapping.skip(CharacterDTO::setFilms));
-        modelMapper.typeMap(Genre.class, GenreDTO.class).addMappings(newMapping -> newMapping.skip(GenreDTO::setFilms));
+        modelMapper.typeMap(Character.class, CharacterDTO.class).addMappings(newMapping -> newMapping.skip(CharacterDTO::setMovies));
+        modelMapper.typeMap(Genre.class, GenreDTO.class).addMappings(newMapping -> newMapping.skip(GenreDTO::setMovies));
         return modelMapper;
     }
 
     @Bean
     public ModelMapper modelMapperGenres() {
         var modelMapper = new ModelMapper();
-        modelMapper.typeMap(Character.class, CharacterDTO.class).addMappings(newMapping -> newMapping.skip(CharacterDTO::setFilms));
-        modelMapper.typeMap(Film.class, FilmDTO.class).addMappings(newMapping -> newMapping.skip(FilmDTO::setGenres));
+        modelMapper.typeMap(Character.class, CharacterDTO.class).addMappings(newMapping -> newMapping.skip(CharacterDTO::setMovies));
+        modelMapper.typeMap(Movie.class, MovieDTO.class).addMappings(newMapping -> newMapping.skip(MovieDTO::setGenres));
         return modelMapper;
     }
 

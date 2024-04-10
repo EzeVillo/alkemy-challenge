@@ -43,5 +43,5 @@ public class GenreDTO {
     private String image;
 
     @JsonView({Views.FullResponseView.class})
-    private Set<FilmDTO> films;
+    private Set<MovieDTO> movies;
 }
